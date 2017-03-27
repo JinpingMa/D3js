@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="d3/d3.min.js"></script>
+</head>
+
+<body>
+  <script>
+    d3.json("tweets.json",function(data){
+        console.log(data);
+        var tweetData=data.tweets;
+        var nestedTweets=d3.nest()
+            .key(function(el){return el.user;})
+            .entries(tweetData);
+        console.log(nestedTweets);
+    });
+      
+      var min,max,mean;
+      para=document.createElement("p");
+      body=document.getElementsByTagName("body");
+      var testArray=[88,10000,1,75,12,35];
+      min=d3.min(testArray,function(el){return +el})
+      max=d3.max(testArray,function(el){return +el})
+      mean=d3.mean(testArray,function(el){return +el})
+      text=document.createTextNode("min:"+min+"\nmax:"+max+"\nmean:"+mean);
+          para.appendChild(text);
+          body[0].appendChild(para);
+//      d3.csv("cities.csv",function(data){
+//          min=d3.min(data,function(el){return +el.population});
+//          max=d3.max(data,function(el){return +el.population});
+//          mean=d3.mean(data,function(el){return +el.population}); text=document.createTextNode("min:"+min+"\nmax:"+max+"\nmean:"+mean);
+//          para.appendChild(text);
+//          body[0].appendChild(para);
+//      });
+    </script>  
+</body>
+
+</html>

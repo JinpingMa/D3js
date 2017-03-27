@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="d3/d3.min.js"></script>
+</head>
+
+<body>
+    <svg> </svg>
+    <script>
+//        var yScale = d3.scale.linear().domain([0, 100, 1000, 24500]).range([0, 50, 75, 100]).clamp(true);
+//        d3.select("svg")
+//            .selectAll("rect")
+//            .data([14, 68, 24500, 430, 19, 1000, 5555])
+//            .enter()
+//            .append("rect")
+//            .attr("width", 10)
+//            .attr("height", function (d) {return yScale(d);})
+//            .style("fill", "blue")
+//            .style("stroke", "red")
+//            .style("stroke-width", "1px")
+//            .style("opacity", .25)
+//            .attr("x", function (d, i) {return i * 10;})
+//            .attr("y", function (d, i) {return 100 - yScale(d);});
+        d3.csv("cities.csv",function(error,data){dataViz(data);});
+        function dataViz(incomingData){
+            var maxPopulation=d3.max(incomingData,function(el){
+                return parseInt(el.population);
+            });
+            var yScale=d3.scale.linear().domain([0,maxPopulation]).range([0,460]);
+            d3.select("svg").attr("style","height:480px;width:600px;");
+            d3.select("svg")
+            .selectAll("rect")
+            .data(incomingData)
+            .enter()
+            .append("rect")
+            .attr("width",50)
+            .attr("height",function(d){return yScale(parseInt(d.population));})
+            .attr("x",function(d,i){return i*60;})
+            .attr("y",function(d){return 480-yScale(parseInt(d.population));})
+            .style("fill","blue")
+            .style("stroke","red")
+            .style("stroke-width","1px")
+            .style("opacity",.25)
+            
+        }
+    </script>
+</body>
+
+</html>

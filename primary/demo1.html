@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="d3/d3.min.js"></script>
+</head>
+
+<body>
+    <p>djfdksjsk</p>
+    <p>djkjljlowueo</p>
+    <p>23843kjkfj</p>
+</body>
+<script>
+    //d3.selectAll("p").style("color","red");
+    d3.selectAll("p").style("color", function () {
+        console.log("hsl(" + Math.random() * 360 + ",100%,50%)");
+        return "hsl(" + Math.random() * 360 + ",100%,50%)";
+    });
+    d3.selectAll("p").data([4, 15, 16, 23, 42]).style("font-size", function (d) {
+        return d + "px";
+    });
+    var p = d3.select("body")
+  .selectAll("p")
+  .data([4, 8, 15, 16, 23, 42])
+    .text(function(d) { return d; });
+d3.select("body").transition()
+    .style("background-color", "black");
+    //d3.select("body").style("background-color", "black");
+</script>
+
+</html>

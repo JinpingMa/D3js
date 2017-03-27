@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+    <head>
+<script src="d3/d3.min.js" type="text/JavaScript"> </script>
+<style>
+    .inactive,
+    .tentative {
+        stroke: darkgray;
+        stroke-width: 2px;
+        stroke-dasharray: 5 5;
+    }
+    
+    .tentative {
+        opacity: .5;
+    }
+    
+    .active {
+        stroke: black;
+        stroke-width: 4px;
+        stroke-dasharray: 1;
+    }
+    
+    circle {
+        fill: red;
+    }
+    
+    rect {
+        fill: darkgray;
+    }
+</style>
+    </head>
+<body>
+    <div id="infovizDiv">
+        <svg style="width:500px;height:500px;border:1px lightgray solid;">
+            <path d="M50,485.714857L58.3332,473.809238C66.66666,461.90487,83.33331,438.09381,99.9999,433.33333C116.66,428.57142857142856,133.34,442.85714285714283,150,445.22C166.669,447.6190476190476,183.3331,438.0952380952381,199.9997,421.4285714285714C216.663,404.7619047619047,233.331,380.9523809523809,250,383.33C266.667,385.71428571428567,283.337,414.2857142857143,300,430.95238095238096C316.6674,447.6190476190476,333.337,452.3809523809524,350,450C366.667,447.6190476190476,383.33,438.0952380952381,400,442.85714285714283C416.663,447.6190476190476,433.33,466.6663,449.994,469.049C466.66663,471.42857142857144,483.3333333,457.1428571,491.663,450L500,442.8571429" />
+            <path d="M 10,60 40,30 50,50 60,30 70,80" />
+            <polygon class="inactive" points="80,400 120,400 160,440 120,480 60,460" />
+            <g>
+                <circle class="active tentative" cy="100" cx="200" r="30" />
+                <rect class="active" x="410" y="200" width="100" height="50" /> </g>
+            <!--
+            <g>
+                <circle r="2" />
+                <text>This circle’s Label</text>
+            </g>
+            <g transform="translate(100,50)">
+                <circle r="2" />
+                <text>This circle’s Label</text>
+            </g>
+            <g transform="translate(100,400) scale(2.5)">
+                <circle r="2" />
+                <text>This circle’s Label</text>
+            </g>
+-->
+            <!--
+            <path style="fill:none;stroke:gray;stroke-width:4px;" d="M 10,60 40,30 50,50 60,30 70,80" transform="translate(0,0)" />
+            <path style="fill:black;stroke:gray;stroke-width:4px;" d="M 10,60 40,30 50,50 60,30 70,80" transform="translate(0,100)" />
+            <path style="fill:none;stroke:gray;stroke-width:4px;" d="M 10,60 40,30 50,50 60,30 70,80Z" transform="translate(0,200)" />
+            <path style="fill:black;stroke:gray;stroke-width:4px;" d="M 10,60 40,30 50,50 60,30 70,80Z" transform="translate(0,300)" /> 
+-->
+        </svg>
+    </div>
+</body>
+
+</html>
