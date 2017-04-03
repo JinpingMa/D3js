@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="d3.min.js"></script>
+    <style>
+        .time{
+            font-family: Cursive;
+            font-size: 40px;
+            stroke: black;
+            stroke-width: 2;
+        }
+    </style>
+    </head>
+
+<body>
+    <div id="viz">
+    <svg></svg>
+    </div>
+    <script>
+        function getTimeString() {
+            var time = new Date();
+            var hours = time.getHours();
+            var minutes = time.getMinutes();
+            var seconds = time.getSeconds();
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            return hours + ":" + minutes + ":" + seconds;
+        }
+        
+        var timeText=d3.select("svg").append("text")
+            .attr("x",100)
+            .attr("y",100)
+            .attr("class","time")
+            .text(getTimeString());
+        
+        setInterval(updateTime,1000);
+        
+        function updateTime(){
+            timeText.text(getTimeString());
+        }
+    </script>
+</body>
+
+</html>

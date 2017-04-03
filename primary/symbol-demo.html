@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="d3/d3.min.js"></script>
+    <style>
+        svg {
+            width: 500px;
+            height: 500px;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="viz">
+        <svg></svg>
+    </div>
+    <script>
+        var n = 30;
+        var dataset = [];
+        for (var i = 0; i < n; i++) {
+            dataset.push({
+                size: Math.random() * 30 + 200
+                , type: d3.svg.symbolTypes[Math.floor(Math.random() * d3.svg.symbolTypes.length)]
+            });
+        }
+        var symbol = d3.svg.symbol().size(function (d) {
+            return d.size;
+        }).type(function (d) {
+            return d.type;
+        });
+        var color = d3.scale.category20b();
+        d3.select("svg").selectAll().data(dataset).enter().append("path").attr("d", function (d) {
+            return symbol(d);
+        }).attr("transform", function (d, i) {
+            var x = 100 + i % 5 * 20;
+            var y = 100 + Math.floor(i / 5) * 20;
+            return "translate(" + x + "," + y + ")";
+        }).attr("fill", function (d, i) {
+            return color(i);
+        });
+        
+    </script>
+</body>
+
+</html>
