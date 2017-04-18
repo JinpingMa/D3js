@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="d3/d3.min.js"></script>
+    <style>
+    svg {
+            width: 600px;
+            height: 600px;
+            border: 1px solid gray;
+        }
+        
+        line {
+            shape-rendering: crispEdges;
+            stroke: #000000;
+        }
+        
+        line.minor {
+            stroke: #777777;
+            stroke-dasharray: 2, 2;
+        }
+        
+        path.domain {
+            fill: none;
+            stroke: black;
+        }
+    </style>
+</head>
+
+<body>
+    <svg> </svg>
+    <script>
+        
+        var width=600;
+        var height=600;
+        var dataset=[50,43,120,87,99,167,142];
+        var padding = {
+            top: 50
+            , right: 50
+            , bottom: 50
+            , left: 50
+        };
+        var maxValue=d3.max(dataset,function(el){
+                return el;
+            });
+         var xScale = d3.scale.linear().domain([-1, 7]).range([0, width - padding.left - padding.right]);
+        var yScale = d3.scale.linear().domain([0, maxValue]).range([height - padding.top - padding.bottom, 0]);
+        
+        var svg=d3.select("svg");
+        //axe
+        
+//        yAxis=d3.svg.axis()
+//        .scale(yScale)
+//        .orient("right")
+//        .ticks(8)
+//        .tickSize(-470);
+//        
+//        var yAxis=d3.svg.axis()
+//        .scale(yScale)
+//        .orient("left")
+        
+        var xAxis=d3.svg.axis()
+        .scale(xScale)
+        .tickFormat(d3.format("d"))
+        .orient("bottom")
+        .tickValues([-1,0,1,2,3,4,5,6,7])
+        
+        var yAxis=d3.svg.axis()
+        .scale(yScale)
+        .orient("left")
+        
+        svg.append("g")
+        .attr("class","axis")
+        .attr("transform","translate("+padding.left+","+(height-padding.bottom)+")")
+        .call(xAxis);
+        
+        svg.append("g")
+        .attr("class","axis")
+        .attr("transform","translate("+padding.left+","+padding.top+")")
+        .call(yAxis);
+        //console.log(svg);
+        svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("fill","steelblue")
+        .attr("x",function(d,i){
+            return padding.left+xScale(i)-15;
+        })
+        .attr("y",function(d){
+            return height-padding.bottom-yScale(0)+yScale(d);
+        })
+        .attr("width",30)
+        .attr("height",function(d){
+            //console.log
+            return yScale(0)-yScale(d);
+        })
+        .on("mouseover",function(d,i){
+            d3.select(this)
+            .attr("fill","yellow");
+        })
+        .on("mouseout",function(d,i){
+            d3.select(this)
+            .transition()
+            .duration(500)
+            .attr("fill","steelblue");
+        });
+        
+        //axe
+        
+//        yAxis=d3.svg.axis()
+//        .scale(yScale)
+//        .orient("right")
+//        .ticks(8)
+//        .tickSize(-470);
+//        
+//        var yAxis=d3.svg.axis()
+//        .scale(yScale)
+//        .orient("left")
+        
+//        var xAxis=d3.svg.axis()
+//        .scale(xScale)
+//        .tickFormat(d3.format("d"))
+//        .orient("bottom")
+//        .tickValues([1,2,3,4,5,6,7])
+//        
+//        var yAxis=d3.svg.axis()
+//        .scale(yScale)
+//        .orient("left")
+//        
+//        svg.append("g")
+//        .attr("class","axis")
+//        .attr("transform","translate("+padding.left+","+(height-padding.bottom)+")")
+//        .call(xAxis);
+//        
+//        svg.append("g")
+//        .attr("class","axis")
+//        .attr("transform","translate("+padding.left+","+padding.top+")")
+//        .call(yAxis);
+        
+    </script>
+</body>
+
+</html>

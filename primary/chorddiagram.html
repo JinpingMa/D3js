@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>弦图</title>
+  <script src="d3/d3.min.js"></script>
+  <style>
+    svg {
+      width: 600px;
+      height: 600px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <svg></svg>
+  </div>
+  <script>
+    var continent = ["亚洲", "欧洲", "非洲", "美洲", "大洋洲"];
+    var population = [[9000, 870, 3000, 1000, 5200], [3400, 8000, 2300, 4922, 374], [2000, 2000, 7700, 4881, 1050], [3000, 8012, 5531, 500, 400], [3540, 4310, 1500, 1900, 300]];
+    var chord = d3.layout.chord()
+      .padding(0.03)
+      .sortSubgroups(d3.ascending)
+      .matrix(population);
+
+
+    var svg = d3.select("svg");
+    var width = 600;
+    var height = 600;
+    //弦图的<g>元素
+    var gChord = svg.append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    //节点的<g>元素
+    var gOuter = gChord.append("g");
+    //弦的<g>元素
+    var gInner = gChord.append("g");
+
+    //创建一个弧生成器，并为其设定内半径和外半径。
+    //颜色比例尺
+    var color = d3.scale.category20();
+    //绘制节点
+    var innerRadius = width / 2 * 0.7;
+    var outerRadius = innerRadius * 1.1;
+
+    //弧生成器
+    var arcOuter = d3.svg.arc()
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadius);
+    gOuter.selectAll(".outerPath")
+      .data(chord.groups())
+      .enter()
+      .append("path")
+      .attr("class", "outerPath")
+      .style("fill", function (d) {
+        return color(d.index);
+      })
+      .attr("d", arcOuter); //使用弧生成器
+
+    gOuter.selectAll(".outerText")
+      .data(chord.groups())
+      .enter()
+      .append("text")
+      .each(function (d, i) {
+        d.angle = (d.startAngle + d.endAngle) / 2;
+        d.name = continent[i];
+      })
+      .attr("class", "outerText")
+      .attr("dy", ".35em")
+      .attr("transform", function (d) {
+        //先旋转d.angle
+        var result = "rotate(" + (d.angle * 180 / Math.PI) + ")";
+        //平移到外半径之外
+        result += "translate(0," + -1.0 * (outerRadius + 10) + ")";
+        //对位于弦图下方的文字，翻转180，为了防止其是倒着的
+        if (d.angle > Math.PI * 3 / 4 && d.angle < Math.PI * 5 / 4 || d.angle > Math.PI * 1 / 4 && d.angle < Math.PI * 3 / 4)
+          result += "rotate(180)";
+        return result;
+      })
+      .text(function (d) {
+        return d.name;
+      });
+
+    var arcInner = d3.svg.chord()
+      .radius(innerRadius);
+    gInner.selectAll(".innerPath")
+      .data(chord.chords())
+      .enter()
+      .append("path")
+      .attr("class", "innerPath")
+      .attr("d", arcInner)
+      .style("fill", function (d) {
+        return color(d.source.index);
+      });
+
+    //只显示一段弧上的弦
+    gOuter.selectAll(".outerPath")
+      .on("mouseover", fade(0.0))
+      .on("mouseout", fade(1.0));
+
+    function fade(opacity) {
+      //返回一个function(g,i)
+      return function (g, i) {
+        gInner.selectAll(".innerPath") //选择所有的弦
+          .filter(function (d) { //过滤器
+            //没有连续到鼠标所在节点的弦才能通过
+            return d.source.index != i && d.target.index != i;
+          })
+          .transition() //过度
+          .style("opacity", opacity);
+      }
+    }
+  </script>
+</body>
+
+</html>
